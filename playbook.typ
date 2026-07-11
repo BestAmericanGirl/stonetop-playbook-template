@@ -17,50 +17,6 @@
 #show title: set text(font: format_options.font_heading, size: 22pt, weight: "bold")
 #show heading: set text(font: format_options.font_heading, size: 10pt, weight: "bold")
 
-// Heading with (Choose blank) after it
-#let choose_heading(body, desc: "(Choose 1)") = [
-  = #body #text(font: format_options.font_normal, size: 8pt, weight: "regular")[#desc]
-]
-
-#let thin_line = line(length: 100%, stroke: 0.4pt)
-
-// Line above, checkbox, heading, and body
-#let checkable_block(heading, body, checked: false, count: 1, condense: false, is_child: false, num_uses: 0, is_move: false) = [
-  #let child_aware_line = if not is_child {thin_line} else {line(length: 100%, stroke: (thickness: 0.4pt, dash: "densely-dotted"))}
-  #if not is_move {
-    child_aware_line
-  } else {
-    context {
-      let previous_moves = query(selector(<move>).before(here()))
-      if previous_moves.len() > 1 {
-        let previous_move = previous_moves.at(-2)
-        let previous_y = previous_move.location().position().at("y")
-        let current_y = here().position().at("y")
-
-        if previous_y < current_y {
-          child_aware_line
-        }
-      }
-    }
-  }
-  #check(text(size: 9pt, weight: "semibold")[#upper[#heading] #h(1fr) #if num_uses > 0 {uses(num_uses)}], checked: checked, count: count)
-  #if not condense {parbreak()} else {linebreak()}
-  #body
-]
-
-#let big_line(vspace: 0em) = [#block(width: 100%, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
-
-#let statbox(body, above: "", below: "") = block(outset: 0.5em, clip: true, box(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt)[
-  #set text(weight: "bold", size: 7.5pt)
-  #grunge
-  // #block(height: 110%, clip: true, vgrunge)
-  #if above != "" {place(top + center, box(fill: white, outset: (left: 1.5pt, right: 1.5pt))[#above], dy: -1em)}
-
-  #align(center + horizon)[#set text(font: format_options.font_handwriting, size: 18pt); #body]
-
-  #if below != "" {place(bottom + center, box(fill: white, outset: 1.5pt)[#below], dy: 1em)}
-])
-
 #let format_move(move, is_child: false, is_move: false) = block(breakable: false, inset: if is_child {(left: 1em)} else {0em})[
   #checkable_block(move.name, checked: move.checked, count: move.num_checkboxes, condense: true, is_child: is_child, num_uses: move.stock, is_move: is_move)[
     #if move.requires != "" {[(Requires #move.requires)#linebreak()]}
@@ -72,6 +28,18 @@
     }
   ]<move>
 ]
+
+// Statbox with handwritten content
+#let statbox(body, above: "", below: "") = block(outset: 0.5em, clip: true, box(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt)[
+  #set text(weight: "bold", size: 7.5pt)
+  #grunge
+  // #block(height: 110%, clip: true, vgrunge)
+  #if above != "" {place(top + center, box(fill: white, outset: (left: 1.5pt, right: 1.5pt))[#above], dy: -1em)}
+
+  #align(center + horizon)[#set text(font: format_options.font_handwriting, size: 18pt); #body]
+
+  #if below != "" {place(bottom + center, box(fill: white, outset: 1.5pt)[#below], dy: 1em)}
+])
 
 #let debility(body) = $ underbrace(#box(width: 100%, height: 1em)[#place(bottom + center, circle(radius: 2pt, fill: white, stroke: black), dy: 4pt)], italic(body)) $
 
@@ -164,7 +132,7 @@
   )
 
   #v(1em)
-  #big_line(vspace: -1em)
+  #biggest_line(vspace: -1em)
 
   #choose_heading(desc: [You start with #playbook.starting_moves.])[Moves]
   #thin_line
@@ -191,7 +159,7 @@
     #checklist(special_possessions, condense: true)
   ]
   ],
-  big_line(vspace: 1em),
+  v(1em),
   columns(2, gutter: 1em)[
     #for move in moves.slice(format_options.num_page1_moves) {
       format_move(move, is_move: true)
