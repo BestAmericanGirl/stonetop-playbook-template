@@ -99,6 +99,18 @@
   #body
 ]
 
+#let format_move(move, is_child: false, is_move: false) = block(breakable: false, inset: if is_child {(left: 1em)} else {0em})[
+  #checkable_block(move.name, checked: move.checked, count: move.num_checkboxes, condense: true, is_child: is_child, num_uses: move.stock, is_move: is_move)[
+    #if move.requires != "" {[(Requires #move.requires)#linebreak()]}
+    #move.body
+    #if move.children != none {
+      for child in move.children {
+        format_move(child, is_child: true)
+      }
+    }
+  ]<move>
+]
+
 // Big line with grunge
 #let big_line(vspace: 0em) = [#block(width: 100%, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
 

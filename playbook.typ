@@ -1,33 +1,9 @@
 #import "playbook_data_blessed.typ": *
 #import "@preview/bookletic:0.3.2"
 #import "playbook_lib.typ": *
+#import "stonetop_style.typ": *
 
-#set text(
-  font: format_options.font_normal,
-  size: 8.3pt,
-)
-
-#set list(
-  marker: box(height: 0.7em)[#align(horizon)[#image("img/swirl.svg")]]
-)
-
-#set par(leading: 0.55em, spacing: 0.95em, justify: false)
-#set block(spacing: 0.6em)
-
-#show title: set text(font: format_options.font_heading, size: 22pt, weight: "bold")
-#show heading: set text(font: format_options.font_heading, size: 10pt, weight: "bold")
-
-#let format_move(move, is_child: false, is_move: false) = block(breakable: false, inset: if is_child {(left: 1em)} else {0em})[
-  #checkable_block(move.name, checked: move.checked, count: move.num_checkboxes, condense: true, is_child: is_child, num_uses: move.stock, is_move: is_move)[
-    #if move.requires != "" {[(Requires #move.requires)#linebreak()]}
-    #move.body
-    #if move.children != none {
-      for child in move.children {
-        format_move(child, is_child: true)
-      }
-    }
-  ]<move>
-]
+#show: stonetop_style
 
 // Statbox with handwritten content
 #let statbox(body, above: "", below: "") = block(outset: 0.5em, clip: true, box(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt)[
@@ -36,7 +12,7 @@
   // #block(height: 110%, clip: true, vgrunge)
   #if above != "" {place(top + center, box(fill: white, outset: (left: 1.5pt, right: 1.5pt))[#above], dy: -1em)}
 
-  #align(center + horizon)[#set text(font: format_options.font_handwriting, size: 18pt); #body]
+  #align(center + horizon)[#set text(font: style_options.font_handwriting, size: 18pt); #body]
 
   #if below != "" {place(bottom + center, box(fill: white, outset: 1.5pt)[#below], dy: 1em)}
 ])

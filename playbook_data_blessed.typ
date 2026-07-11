@@ -14,9 +14,6 @@
 #let format_options = (
   // How many moves to put on the first page of moves?
   num_page1_moves: 11,
-  font_normal: "EB Garamond",
-  font_heading: "Avara",
-  font_handwriting: "Crafty Girls",
 )
 
 #let stats = (
