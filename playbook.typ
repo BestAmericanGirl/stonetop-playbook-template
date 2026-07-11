@@ -17,7 +17,10 @@
   #if below != "" {place(bottom + center, box(fill: white, outset: 1.5pt)[#below], dy: 1em)}
 ])
 
-#let debility(body) = $ underbrace(#box(width: 100%, height: 1em)[#place(bottom + center, circle(radius: 2pt, fill: white, stroke: black), dy: 4pt)], italic(body)) $
+#let debility(body) = [
+  #show math.equation: set text(size: 11pt)
+  $ underbrace(#box(width: 100%, height: 1em)[#place(bottom + center, circle(radius: 2pt, fill: white, stroke: black), dy: 4pt)], italic(body)) $
+]
 
 #let intro_step(num, body) = block()[
   #thin_line
@@ -52,14 +55,14 @@
       /* Backgrounds */
       #choose_heading[Background]
       #for background in backgrounds {
-        checkable_block(background.name, background.body, condense: true)
+        checkblock(background, condense: true)
       }
     ],
     /* Instincts */
     [
       #choose_heading[Instinct]
       #for instinct in instincts {
-        checkable_block(instinct.name, instinct.body, condense: true)
+        checkblock(instinct, condense: true)
       }
 
       #big_line(vspace: -1em)
@@ -84,7 +87,6 @@
 ]
 
 #let page2 = [
-  #show math.equation: set text(size: 10pt)
   #big_line(vspace: -1em)
   #choose_heading(desc: [Assign these scores: #playbook.stat_scores. When a debility is marked, you roll with disadvantage.])[Stats]
 
@@ -150,8 +152,7 @@
     [
       #for section in character_question_sections {
         big_line(vspace: -1em)
-        [= #section.name]
-        section.body
+        section
       }
     ],
     [

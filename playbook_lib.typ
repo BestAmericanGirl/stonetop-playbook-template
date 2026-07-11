@@ -1,10 +1,13 @@
 // Simple line starting with checkbox:
+#import "stonetop_style.typ": style_options
+
 #let check(body, hspace: 0.75em, checked: false, count: 1) = [
+  #show math.equation: set text(size: 12pt)
   #box[
     #for i in range(count) {
       if i > 0 {" "}
         box(width: 6pt, height: 6pt, radius: (rest: 1.5pt), stroke: 0.5pt)[#if checked {
-        place(center + horizon, text(size: 12pt)[#sym.checkmark.heavy], dy: -2pt, dx: 1pt)
+        place(center + horizon, text(size: 12pt)[$#sym.checkmark.heavy$], dy: -2pt, dx: 1pt)
       }]
     }
     #h(hspace)
@@ -76,7 +79,12 @@
 #let thin_line = line(length: 100%, stroke: 0.4pt)
 
 // Line above, checkbox, heading, and body
-#let checkable_block(heading, body, checked: false, count: 1, condense: false, is_child: false, num_uses: 0, is_move: false) = [
+#let checkblock(body, checked: false, count: 1, condense: false, is_child: false, num_uses: 0, is_move: false) = [
+  #show heading.where(level: 2): it => {
+    set text(..style_options.heading2)
+    check([#upper[#it.body] #h(1fr) #if num_uses > 0 {uses(num_uses)}], checked: checked, count: count)
+    if not condense {parbreak()} else {linebreak()}
+  }
   #let child_aware_line = if not is_child {thin_line} else {line(length: 100%, stroke: (thickness: 0.4pt, dash: "densely-dotted"))}
   #if not is_move {
     child_aware_line
@@ -94,21 +102,20 @@
       }
     }
   }
-  #check(text(size: 9pt, weight: "semibold")[#upper[#heading] #h(1fr) #if num_uses > 0 {uses(num_uses)}], checked: checked, count: count)
-  #if not condense {parbreak()} else {linebreak()}
   #body
 ]
 
 #let format_move(move, is_child: false, is_move: false) = block(breakable: false, inset: if is_child {(left: 1em)} else {0em})[
-  #checkable_block(move.name, checked: move.checked, count: move.num_checkboxes, condense: true, is_child: is_child, num_uses: move.stock, is_move: is_move)[
-    #if move.requires != "" {[(Requires #move.requires)#linebreak()]}
-    #move.body
-    #if move.children != none {
-      for child in move.children {
-        format_move(child, is_child: true)
-      }
-    }
+  #checkblock(checked: move.checked, count: move.num_checkboxes, condense: true, is_child: is_child, num_uses: move.stock, is_move: is_move)[
+    == #move.name
   ]<move>
+  #if move.requires != "" {[(Requires #move.requires)#linebreak()]}
+  #move.body
+  #if move.children != none {
+    for child in move.children {
+      format_move(child, is_child: true)
+    }
+  }
 ]
 
 // Big line with grunge

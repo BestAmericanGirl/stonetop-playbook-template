@@ -26,71 +26,65 @@
 )
 
 #let backgrounds = (
-  (
-    name: "Initiate",
-    body: [
-      Stonetop has long been home to a sacred order, keepers of the old ways and speakers for Danu. You are one such initiate, the most gifted in generations. You gain the Rites of the Land move.
+  [
+    == Initiate
+    Stonetop has long been home to a sacred order, keepers of the old ways and speakers for Danu. You are one such initiate, the most gifted in generations. You gain the Rites of the Land move.
 
-      There are other initiates in Stonetop, serving the goddess and the village. They aid you as followers--- see the Initiates of Danu insert. Who are they?
+    There are other initiates in Stonetop, serving the goddess and the village. They aid you as followers--- see the Initiates of Danu insert. Who are they?
 
-      Choose 2 or 3:
+    Choose 2 or 3:
 
-      #checklist[
-        - *Enfys*, your acolyte, beloved by birds
-        - *Afon*, strange and Fae-touched
-        - *Gwendyl*, your mentor, a talented healer
-        - *Olwin*, your anointed lover, seer of fates
-        - *Seren the Eldest*, wise and hard as winter
-      ]
+    #checklist[
+      - *Enfys*, your acolyte, beloved by birds
+      - *Afon*, strange and Fae-touched
+      - *Gwendyl*, your mentor, a talented healer
+      - *Olwin*, your anointed lover, seer of fates
+      - *Seren the Eldest*, wise and hard as winter
     ]
-  ),
-  (
-    name: "Raised by Wolves",
-    body: [
-      Maybe not by _wolves_, but you grew up in the wild. Beasts of land and air were your siblings. The sighing wind taught you language. The trees and rocks were your home. Were you one of the Forest Folk? Abandoned or orphaned? Lured into the Wood?
+  ],
+  [
+    == Raised by Wolves
+    Maybe not by _wolves_, but you grew up in the wild. Beasts of land and air were your siblings. The sighing wind taught you language. The trees and rocks were your home. Were you one of the Forest Folk? Abandoned or orphaned? Lured into the Wood?
 
-      Regardless, you get the Trackless Step move (go mark it now). Also, when you *_Forage_*, you have advantage.
+    Regardless, you get the Trackless Step move (go mark it now). Also, when you *_Forage_*, you have advantage.
 
-      For some reason, you've made yourself known to Stonetop and perhaps you even call it home. But the ways of humans are still strange to you. Once per session, when *_your wild ways offend or alienate you from someone_*, mark XP.
-    ]
-  ),
-  (
-    name: "Vessel",
-    body: [
-      A seed of Danu's power has taken root in your soul. Perhaps it has always been there and only recently sprouted. Or maybe it was planted in you during some portentous event.
+    For some reason, you've made yourself known to Stonetop and perhaps you even call it home. But the ways of humans are still strange to you. Once per session, when *_your wild ways offend or alienate you from someone_*, mark XP.
+  ],
+  [
+    == Vessel
+    A seed of Danu's power has taken root in your soul. Perhaps it has always been there and only recently sprouted. Or maybe it was planted in you during some portentous event.
 
-      Regardless, your dreams have been haunted by strange markings and symbols. You feel the mystic power in plants, stones, and soil. And you've felt the growing wrath of the Earth Mother as foul things begin to move about. Take the Danu's Grasp move (go mark it now).
+    Regardless, your dreams have been haunted by strange markings and symbols. You feel the mystic power in plants, stones, and soil. And you've felt the growing wrath of the Earth Mother as foul things begin to move about. Take the Danu's Grasp move (go mark it now).
 
-      Danu's power flows through you, but at great cost. When you *_would spend 1 Stock from your sacred pouch_*, you may choose to lose 2d4 HP instead.
-    ]
-  ),
+    Danu's power flows through you, but at great cost. When you *_would spend 1 Stock from your sacred pouch_*, you may choose to lose 2d4 HP instead.
+  ],
 )
 
 #let instincts = (
-  (
-    name: "Delight",
-    body: [To find beauty, even in the ugliest things.]
-  ),
-  (
-    name: "Detachment",
-    body: [To remain unmoved, to be cold as winter.]
-  ),
-  (
-    name: "Nurture",
-    body: [To help others grow, learn, or improve.]
-  ),
-  (
-    name: "Preservation",
-    body: [To protect the natural world.]
-  ),
-  (
-    name: "Reverence",
-    body: [To honor the sprits and give them their due.]
-  ),
-  (
-    name: "",
-    body: [#linebreak()]
-  ),
+  [
+    == Delight
+    To find beauty, even in the ugliest things.
+  ],
+  [
+    == Detachment
+    To find beauty, even in the ugliest things.
+  ],
+  [
+    == Nurture
+    To find beauty, even in the ugliest things.
+  ],
+  [
+    == Preservation
+    To find beauty, even in the ugliest things.
+  ],
+  [
+    == Reverence
+    To find beauty, even in the ugliest things.
+  ],
+  [
+    == ~
+    #linebreak()
+  ],
 )
 
 #let appearances = (
@@ -106,7 +100,6 @@
   - *The Steplands* (Hillfolk): Bejn, Decla, Franza, Irv, Ivet, Jak, Sibl, or Yez
   - *The Wild*: mix and match one of these:\
     Autumn, Badger, Big, Black, Bloody, Brave, Crow, Cub, Dark, Doe, Fang, Fierce, Flower, Gentle, Green, Grim, Hart, Leaf, Little, Lonely, Old, Owl, Pale, Pup, Quick, Quiet, Rain, Red, Sharp, Snake, Snow, Spring, Summer, Tall, Tree, Yellow, White, Wind, Winter, Wolf, Whisper
-  
 ]
 
 // These will have their checkboxes checked
@@ -301,59 +294,55 @@
 )
 
 #let character_question_sections = (
-  (
-    name: "Sacred pouch",
-    body: [
-      Your sacred pouch (_magical_) doesn't take up space in your inventory. It can hold up to 3 Stock (sacred herbs, powders, stones, pigments, chalks, clay, and so forth). Each time you gain an even-numbered level, your pouch can hold +1 Stock. When *_anyone but you looks inside your sacred pouch and touches the materials therein_*, the Stock is ruined.
+  [
+    = Sacred Pouch
+    Your sacred pouch (_magical_) doesn't take up space in your inventory. It can hold up to 3 Stock (sacred herbs, powders, stones, pigments, chalks, clay, and so forth). Each time you gain an even-numbered level, your pouch can hold +1 Stock. When *_anyone but you looks inside your sacred pouch and touches the materials therein_*, the Stock is ruined.
 
-      When you *_have a few days of downtime in familiar terrain_*, you may replenish your Stock.
+    When you *_have a few days of downtime in familiar terrain_*, you may replenish your Stock.
 
-      When you *_Forage_*, you can produce Stock instead of provisions.
+    When you *_Forage_*, you can produce Stock instead of provisions.
 
-      Your sacred pouch is... (choose 1 on each line)
+    Your sacred pouch is... (choose 1 on each line)
 
-      #choose_one_each_line(
-        ("an heirloom", "made just for you", "your own work"),
-        ("fur", "drakescale", "leather", "woven", "demonflesh"),
-        ("unadorned", "beadwork", "rich dyes", "runes"),
-      )
+    #choose_one_each_line(
+      ("an heirloom", "made just for you", "your own work"),
+      ("fur", "drakescale", "leather", "woven", "demonflesh"),
+      ("unadorned", "beadwork", "rich dyes", "runes"),
+    )
 
-      What remarkable trait does it possess? (choose 1)
+    What remarkable trait does it possess? (choose 1)
 
-      #checklist[
-        - It cannot be cut, torn, or burned by any natural means.
-        - Unless someone is specifically searching for your pouch, they will ignore its presence.
-        - So long as the pouch is sealed, nothing within can be detected or found by magic, nor can anything within escape or affect the outside world.
-        - Unnatural and unclean creatures cannot bear to touch it.
-      ]
+    #checklist[
+      - It cannot be cut, torn, or burned by any natural means.
+      - Unless someone is specifically searching for your pouch, they will ignore its presence.
+      - So long as the pouch is sealed, nothing within can be detected or found by magic, nor can anything within escape or affect the outside world.
+      - Unnatural and unclean creatures cannot bear to touch it.
     ]
-  ),
-  (
-    name: "The Earth Mother",
-    body: [
-      Danu has long been revered by all peoples, though not always worshipped or served by priests. In Stonetop's Pavilion of the Gods, Danu's shrine is... (choose 1)
+  ],
+  [
+    = The Earth Mother
+    Danu has long been revered by all peoples, though not always worshipped or served by priests. In Stonetop's Pavilion of the Gods, Danu's shrine is... (choose 1)
 
-      #checklist[
-        - ... loved, well-used, dripping with offerings and petitions.
-        - ... little more than a token of respect, for her holy places are anywhere but here.
-        - ... given wide berth by most, and approached only with care and propitiation.
-        - ... neglected and all but forgotten, except by a few.
-      ]
-
-      What do the folk of Stonetop leave as offerings? (choose 2-3)
-
-      #two_columns_checklist[
-        - fruits of harvest
-        - figurines/effigies
-        - whisky/spirits
-        - salt/crystals
-        - pure rain water
-        - metal nails/tools
-        - blood/burnt flesh
-        - incense/sage bark
-      ]
+    #checklist[
+      - ... loved, well-used, dripping with offerings and petitions.
+      - ... little more than a token of respect, for her holy places are anywhere but here.
+      - ... given wide berth by most, and approached only with care and propitiation.
+      - ... neglected and all but forgotten, except by a few.
     ]
-  ),
+
+    What do the folk of Stonetop leave as offerings? (choose 2-3)
+
+    #two_columns_checklist[
+      - fruits of harvest
+      - figurines/effigies
+      - whisky/spirits
+      - salt/crystals
+      - pure rain water
+      - metal nails/tools
+      - blood/burnt flesh
+      - incense/sage bark
+    ]
+  ],
 )
 
 #let introductions = (

@@ -2,6 +2,7 @@
   font_normal: "EB Garamond",
   font_heading: "Avara",
   font_handwriting: "Crafty Girls",
+  heading2: (size: 9pt, weight: "semibold")
 )
 
 #let stonetop_style(body) = {
@@ -18,7 +19,11 @@
   set block(spacing: 0.6em)
 
   show title: set text(font: style_options.font_heading, size: 22pt, weight: "bold")
-  show heading: set text(font: style_options.font_heading, size: 10pt, weight: "bold")
+  show heading.where(level: 1): set text(font: style_options.font_heading, size: 10pt, weight: "bold")
+  show heading.where(level: 2): it => {
+    set text(..style_options.heading2)
+    upper[#it.body]
+  }
 
   body
 }
