@@ -61,3 +61,8 @@
 // To give space for players to write
 #let blank = v(1.1em)
 #let fill_in_the_blank = box(width: 1fr)[#line(length: 100%, stroke: (thickness: 0.2pt, dash: "densely-dotted"))]
+
+#let grunge = context { place(right + horizon, image("img/grunge.svg", width: 300%), dx: here().position().at("y") / 3 + here().position().at("x") / 8)}
+
+// Better for statboxes
+#let vgrunge = context {place(center + horizon, image("img/grunge.svg", height: 600%, width: 800%), dx: here().position().at("x") / 4)}

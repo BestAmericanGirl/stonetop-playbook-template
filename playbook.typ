@@ -25,26 +25,44 @@
 #let thin_line = line(length: 100%, stroke: 0.4pt)
 
 // Line above, checkbox, heading, and body
-#let checkable_block(heading, body, checked: false, count: 1, condense: false, is_child: false, num_uses: 0) = [
-  #if not is_child {thin_line} else {line(length: 100%, stroke: (thickness: 0.4pt, dash: "densely-dotted"))}
+#let checkable_block(heading, body, checked: false, count: 1, condense: false, is_child: false, num_uses: 0, is_move: false) = [
+  #let child_aware_line = if not is_child {thin_line} else {line(length: 100%, stroke: (thickness: 0.4pt, dash: "densely-dotted"))}
+  #if not is_move {
+    child_aware_line
+  } else {
+    context {
+      let previous_moves = query(selector(<move>).before(here()))
+      if previous_moves.len() > 1 {
+        let previous_move = previous_moves.at(-2)
+        let previous_y = previous_move.location().position().at("y")
+        let current_y = here().position().at("y")
+
+        if previous_y < current_y {
+          child_aware_line
+        }
+      }
+    }
+  }
   #check(text(size: 9pt, weight: "semibold")[#upper[#heading] #h(1fr) #if num_uses > 0 {uses(num_uses)}], checked: checked, count: count)
   #if not condense {parbreak()} else {linebreak()}
   #body
 ]
 
-#let big_line(vspace: 0em) = [#rect(width: 100%, height: 0.25em, fill: black) #v(vspace)]
+#let big_line(vspace: 0em) = [#block(width: 100%, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
 
-#let statbox(body, above: "", below: "") = box(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt)[
+#let statbox(body, above: "", below: "") = block(outset: 0.5em, clip: true, box(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt)[
   #set text(weight: "bold", size: 7.5pt)
+  #vgrunge
+  // #block(height: 110%, clip: true, vgrunge)
   #if above != "" {place(top + center, box(fill: white, outset: (left: 1.5pt, right: 1.5pt))[#above], dy: -1em)}
 
   #align(center + horizon)[#set text(font: format_options.font_handwriting, size: 18pt); #body]
 
   #if below != "" {place(bottom + center, box(fill: white, outset: 1.5pt)[#below], dy: 1em)}
-]
+])
 
-#let format_move(move, is_child: false) = block(breakable: false, inset: if is_child {(left: 1em)} else {0em})[
-  #checkable_block(move.name, checked: move.checked, count: move.num_checkboxes, condense: true, is_child: is_child, num_uses: move.stock)[
+#let format_move(move, is_child: false, is_move: false) = block(breakable: false, inset: if is_child {(left: 1em)} else {0em})[
+  #checkable_block(move.name, checked: move.checked, count: move.num_checkboxes, condense: true, is_child: is_child, num_uses: move.stock, is_move: is_move)[
     #if move.requires != "" {[(Requires #move.requires)#linebreak()]}
     #move.body
     #if move.children != none {
@@ -52,7 +70,20 @@
         format_move(child, is_child: true)
       }
     }
-  ]
+  ]<move>
+]
+
+#let debility(body) = $ underbrace(#box(width: 100%, height: 1em)[#place(bottom + center, circle(radius: 2pt, fill: white, stroke: black), dy: 4pt)], italic(body)) $
+
+#let intro_step(num, body) = block()[
+  #thin_line
+  #if introductions.at(num, default: none) != none {
+    body = introductions.at(num)
+  }
+  #stack(dir: ltr, spacing: 0.5em,
+    [#v(-0.75em) #box[ #image("img/intro_bg.svg") #place(top + center, text(fill: white)[= #num], dy: 2pt)]],
+    body
+  )
 ]
 
 #let page1 = [
@@ -63,7 +94,7 @@
     row-gutter: 1em,
     align: top,
     gutter: (0pt),
-    title[#playbook.title],
+    block(clip: true, [#title[#playbook.title] #grunge]),
     grid.cell(rowspan: 2, image(playbook.image_path, width: 100%,)),
     text[_ #playbook.description _],
   )
@@ -99,24 +130,12 @@
 
       #checklist[#origins_and_names]
 
-      #box(radius: (rest: 4pt), stroke: (black + 2pt), width: 100%, inset: 5pt)[
+      #block(clip: true, outset: 0.5em, box(radius: (rest: 4pt), stroke: (black + 2pt), width: 100%, inset: 5pt)[
+        #grunge
         I am\
         called...
-      ]
+      ])
     ]
-  )
-]
-
-#let debility(body) = $ underbrace(#box(width: 100%, height: 1em)[#place(bottom + center, circle(radius: 2pt, fill: white, stroke: black), dy: 4pt)], italic(body)) $
-
-#let intro_step(num, body) = block()[
-  #thin_line
-  #if introductions.at(num, default: none) != none {
-    body = introductions.at(num)
-  }
-  #stack(dir: ltr, spacing: 0.5em,
-    [#v(-0.75em) #box[ #image("img/intro_bg.svg") #place(top + center, text(fill: white)[= #num], dy: 2pt)]],
-    body
   )
 ]
 
@@ -148,11 +167,11 @@
   #big_line(vspace: -1em)
 
   #choose_heading(desc: [You start with #playbook.starting_moves.])[Moves]
-
+  #thin_line
   #columns(2, gutter: 1em)[
     #set text(size: 8pt)
-    #for move in moves.slice(0, format_options.num_page1_moves) {
-      format_move(move)
+    #for (idx, move) in moves.slice(0, format_options.num_page1_moves).enumerate() {
+      [#format_move(move, is_move: true)]
     }
   ]
 ]
@@ -172,10 +191,10 @@
     #checklist(special_possessions, condense: true)
   ]
   ],
-  big_line(vspace: -1pt),
+  big_line(vspace: 1em),
   columns(2, gutter: 1em)[
     #for move in moves.slice(format_options.num_page1_moves) {
-      format_move(move)
+      format_move(move, is_move: true)
     }
   ])
 ]
