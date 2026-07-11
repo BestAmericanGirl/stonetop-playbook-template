@@ -52,7 +52,7 @@
 
 #let statbox(body, above: "", below: "") = block(outset: 0.5em, clip: true, box(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt)[
   #set text(weight: "bold", size: 7.5pt)
-  #vgrunge
+  #grunge
   // #block(height: 110%, clip: true, vgrunge)
   #if above != "" {place(top + center, box(fill: white, outset: (left: 1.5pt, right: 1.5pt))[#above], dy: -1em)}
 
