@@ -11,11 +11,6 @@
   num_special_possessions: "Pick 2, in addition to your sacred pouch"
 )
 
-#let format_options = (
-  // How many moves to put on the first page of moves?
-  num_page1_moves: 11,
-)
-
 #let stats = (
   Strength: "(STR)",
   Dexterity: "(DEX)",

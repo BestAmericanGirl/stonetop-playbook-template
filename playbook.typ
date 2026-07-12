@@ -6,7 +6,7 @@
 #show: stonetop_style
 
 // Statbox with handwritten content
-#let statbox(body, above: "", below: "") = block(outset: 0.5em, clip: true, box(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt)[
+#let statbox(body, above: "", below: "") = grungebox(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt)[
   #set text(weight: "bold", size: 7.5pt)
   #grunge
   // #block(height: 110%, clip: true, vgrunge)
@@ -15,7 +15,7 @@
   #align(center + horizon)[#set text(font: style_options.font_handwriting, size: 18pt); #body]
 
   #if below != "" {place(bottom + center, box(fill: white, outset: 1.5pt)[#below], dy: 1em)}
-])
+]
 
 #let debility(body) = [
   #show math.equation: set text(size: 11pt)
@@ -86,6 +86,13 @@
   )
 ]
 
+#let format_moves() = for (idx, move) in moves.enumerate() {
+  context {
+    //let skip_line = not is_higher_than_previous_label("move", here())
+    edge_and_count_aware(idx, "root_move", [#format_move(move, skip_line: false)])
+  }
+}
+
 #let page2 = [
   #big_line(vspace: -1em)
   #choose_heading(desc: [Assign these scores: #playbook.stat_scores. When a debility is marked, you roll with disadvantage.])[Stats]
@@ -113,12 +120,10 @@
   #biggest_line(vspace: -1em)
 
   #choose_heading(desc: [You start with #playbook.starting_moves.])[Moves]
-  #thin_line
+  // #thin_line
   #columns(2, gutter: 1em)[
     #set text(size: 8pt)
-    #for (idx, move) in moves.slice(0, format_options.num_page1_moves).enumerate() {
-      [#format_move(move, is_move: true)]
-    }
+    #format_moves()
   ]
 ]
 
@@ -139,9 +144,7 @@
   ],
   v(1em),
   columns(2, gutter: 1em)[
-    #for move in moves.slice(format_options.num_page1_moves) {
-      format_move(move, is_move: true)
-    }
+    #format_moves()
   ])
 ]
 
