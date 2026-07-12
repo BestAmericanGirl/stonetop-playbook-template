@@ -83,7 +83,7 @@
 #let thin_line = line(length: 100%, stroke: 0.4pt)
 
 // Line above, checkbox, heading, and body
-#let checkblock(body, checked: false, count: 1, condense: false, is_child: false, num_uses: 0, skip_line: false) = [
+#let checkblock(body, checked: false, count: 1, condense: false, is_child: false, num_uses: 0, skip_line: false) = block(breakable: false)[
   #show heading.where(level: 2): it => {
     set text(..style_options.heading2)
     check([#upper[#it.body] #h(1fr) #if num_uses > 0 {uses(num_uses)}], checked: checked, count: count)
@@ -91,22 +91,19 @@
   }
   #let child_aware_line = if not is_child {thin_line} else {line(length: 100%, stroke: (thickness: 0.4pt, dash: "densely-dotted"))}
   #if not skip_line {
-    child_aware_line
+    context {
+      let hydaelyn = query(selector(<hydaelyn>).before(here())).last(default: none)
+      let line_color = black
+
+      if hydaelyn != none and here().position().y - hydaelyn.location().position().y < 12pt {
+        line_color = white
+      }
+      set line(stroke: line_color)
+      child_aware_line
+    }
   }
   #body
 ]
-
-#let is_higher_than_previous_label(lab, loc) = {
-  let previous_moves = query(selector(label(lab)).before(loc))
-  if previous_moves.len() > 1 {
-    let previous_move = previous_moves.at(-2)
-    let previous_y = previous_move.location().position().at("y")
-    let current_y = loc.position().at("y")
-
-    return previous_y < current_y
-  }
-  return false
-}
 
 #let format_move(move, is_child: false, skip_line: false) = block(breakable: false, inset: if is_child {(left: 1em)} else {0em})[
   #checkblock(checked: move.checked, count: move.num_checkboxes, condense: true, is_child: is_child, num_uses: move.stock, skip_line: skip_line)[
@@ -145,12 +142,16 @@
 }]
 
 // For laying stuff across pages
-#let edge_and_count_aware(idx, lab, body, also_add_label: true) = context {
+#let edge_and_count_aware(idx, lab, body, stop_state: none, also_add_label: true) = context {
   let count = counter(label(lab)).get().at(0)
   let didnt_do_yet = idx >= count
   let wont_go_off_edge = not here().position().at("y") + measure(body).height > (page.width - page.margin).length
-
-  if didnt_do_yet and wont_go_off_edge {
-    [#body #if also_add_label {label(lab)}]
+  let stopped = stop_state != none and stop_state.get()
+  if didnt_do_yet and not stopped {
+    if wont_go_off_edge {
+      [#body #if also_add_label {label(lab)}]
+    } else {
+      if stop_state != none {stop_state.update(true)}
+    }
   }
 }

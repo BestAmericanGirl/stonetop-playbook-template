@@ -86,11 +86,16 @@
   )
 ]
 
-#let format_moves() = for (idx, move) in moves.enumerate() {
-  context {
-    //let skip_line = not is_higher_than_previous_label("move", here())
-    edge_and_count_aware(idx, "root_move", [#format_move(move, skip_line: false)])
+#let stop_state = state("stop", false)
+
+#let format_moves() = {
+  for (idx, move) in moves.enumerate() {
+    context {
+      //let skip_line = not is_higher_than_previous_label("move", here())
+      edge_and_count_aware(idx, "root_move", [#format_move(move, skip_line: false)], stop_state: stop_state)
+    }
   }
+  stop_state.update(false)
 }
 
 #let page2 = [
@@ -120,7 +125,7 @@
   #biggest_line(vspace: -1em)
 
   #choose_heading(desc: [You start with #playbook.starting_moves.])[Moves]
-  // #thin_line
+  #thin_line <hydaelyn>
   #columns(2, gutter: 1em)[
     #set text(size: 8pt)
     #format_moves()
