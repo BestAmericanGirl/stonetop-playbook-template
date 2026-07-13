@@ -9,20 +9,7 @@ For simplicity's sake, the rest of this work is licensed under the same license,
 ## Usage
 Download [typst](https://github.com/typst/typst) and add the executable to your PATH.
 
-To make your own playbook, make a playbook data file and use the `make_playbook` function.
-For example, working within a subfolder:
-
-```typst
-#import "../stonetop_style.typ": stonetop_style
-#import "../playbook.typ": make_playbook
-#import "blessed_lygos_data.typ": playbook
-
-#show: stonetop_style
-
-#make_playbook(..playbook)
-```
-
-See `playbook_data_blessed.typ` for how to format the data file.
+To make your own playbook, edit or copy `playbook_example.typ` and run `typst watch your_file_name.typ`.
 
 Useful shortcuts for writing playbooks are located in `playbook_lib.typ`.
 

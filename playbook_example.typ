@@ -1,5 +1,7 @@
 #import "playbook_lib.typ": *
 
+/* Start editing here */
+
 #let info = (
   title: "The Blessed",
   description: "Danu, the Great Mother, provides. We need only learn her secrets: the names by which the trees call each other; the mark made with redberry juice to ward off impure spirits; the language of the wolves. A thousand such secrets Danu keeps, to share with only her true children. Her Blessed.",
@@ -372,6 +374,8 @@
   ]
 )
 
+/* Don't edit beyond here */
+
 #let playbook = (
   info: info,
   stats: stats,
@@ -385,3 +389,9 @@
   character_question_sections: character_question_sections,
   introductions: introductions,
 )
+
+#import "stonetop_style.typ": stonetop_style
+
+#show: stonetop_style
+
+#make_playbook(..playbook)
