@@ -1,6 +1,6 @@
 #import "playbook_lib.typ": *
 
-#let playbook = (
+#let info = (
   title: "The Blessed",
   description: "Danu, the Great Mother, provides. We need only learn her secrets: the names by which the trees call each other; the mark made with redberry juice to ward off impure spirits; the language of the wolves. A thousand such secrets Danu keeps, to share with only her true children. Her Blessed.",
   image_path: "img/blessed.png",
@@ -8,7 +8,8 @@
   stat_scores: [+2, +1, +1, +0, +0, -1],
   damage_die: "d6",
   starting_moves: "Spirit Tongue, Call the Spirits, 1 from your Background, and 1 of your choice",
-  num_special_possessions: "Pick 2, in addition to your sacred pouch"
+  num_special_possessions: "Pick 2, in addition to your sacred pouch",
+  steading_name: "Stonetop",
 )
 
 #let stats = (
@@ -369,4 +370,18 @@
       #blank
     ]
   ]
+)
+
+#let playbook = (
+  info: info,
+  stats: stats,
+  backgrounds: backgrounds,
+  instincts: instincts,
+  appearances: appearances,
+  origins_and_names: origins_and_names,
+  default_special_possessions: default_special_possessions,
+  special_possessions: special_possessions,
+  moves: moves,
+  character_question_sections: character_question_sections,
+  introductions: introductions,
 )
