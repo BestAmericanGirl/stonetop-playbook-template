@@ -1,10 +1,14 @@
-#let steading_name = "Isida Hill"
+
+#let deity = "Isida"
+#let steading = deity + " Hill"
 #let names = (
-  "gordins-delve": "Gordin's Delve Analogue",
+  "gordins-delve": "Bandit Quarter",
   "cloud-district": "Capitol Hill",
-  "sparta": "Sparta Analogue",
-  "carthage": "Carthage Analogue",
-  "persia": "Persian City Analogue",
-  "achaemenid": "Achaemenid Empire Analogue",
+  "sparta": "Stoikos",
+  "carthage": "Qartadst",
+  "persia": "Dania",
+  "achaemenid": "Zayasid Empire",
   "deity": "Isida",
+  "brennan": "Kassandros",
+  "claws": "Hounds",
 )

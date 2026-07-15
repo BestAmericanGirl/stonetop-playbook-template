@@ -1,7 +1,7 @@
 // Simple line starting with checkbox:
 #import "stonetop_style.typ": style_options
 
-#let check(body, hspace: 0.75em, checked: false, count: 1) = [
+#let check(body, hspace: 0.75em, checked: false, count: 1, inline: false) = [
   #show math.equation: set text(size: 12pt)
   #box[
     #for i in range(count) {
@@ -10,7 +10,7 @@
         place(center + horizon, text(size: 12pt)[$#sym.checkmark.heavy$], dy: -2pt, dx: 1pt)
       }]
     }
-    #h(hspace)
+    #if not inline {h(hspace)}
     #body
   ]
 ]
@@ -124,6 +124,11 @@
 // Same but it stretches across the sheet
 #let biggest_line(vspace: 0em, multiplier: 1) = context[#block(width: (page.height - page.margin * 3) * multiplier, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
 
+// Better for something you want in both spread and booklet form
+#let biggest_line_left(vspace: 0em) = context[#block(width: (page.height - page.margin * 3) / 2, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
+#let biggest_line_right(vspace: 0em) = context[#set align(right)
+#block(width: (page.height - page.margin * 3) / 2, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
+
 #let grungebox(body, ..args) = block(outset: 0.5em, clip: true, box(..args.named())[
   #grunge
 
@@ -156,6 +161,15 @@
   }
 }
 
+#let questions(body) = [
+  #set list(
+    marker: box(height: 0.7em)[#align(horizon)[#image("img/question.svg")]]
+  )
+  #body
+]
+
+
+/** Character Playbook Specific Stuff Below **/
 #let statbox(body, above: "", below: "") = grungebox(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt)[
   #set text(weight: "bold", size: 7.5pt)
   #grunge
@@ -193,8 +207,8 @@
       row-gutter: 1em,
       align: top,
       gutter: (0pt),
-      block(clip: true, [#title[#info.title] #grunge]),
-      grid.cell(rowspan: 2, image(info.image_path, width: 100%,)),
+      block(clip: true, outset: 1em, [#title[#info.title] #grunge]),
+      grid.cell(rowspan: 2, block(clip: true, [#image(info.image_path, width: 100%,) #grunge])),
       text[_ #info.description _],
     )
 
