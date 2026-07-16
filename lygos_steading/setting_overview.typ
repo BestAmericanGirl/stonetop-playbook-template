@@ -182,7 +182,7 @@
     #thin_line
     #columns(1)[
       The city-state of Lygos is home to around 200,000 souls.
-      Like almost everyone else, Lygos is a heavily religious place.
+      Like almost everywhere else, Lygos is a heavily religious place.
       Everyone is part of one *cultic community* or the other, worshipping multiple overlapping gods or interpretations of them.
       There is no official religion; the ruler(s) of Lygos have their own cult, of course, but for most people, their daily lives are more defined by those closest to them.
 
@@ -209,8 +209,8 @@
       #questions[
         - What kind of government does Lygos have?
           - If it's some form of *despotism*, how do they hang onto power? How long have they been in power? How is succession decided?
-          - If it's an early form of *democracy*, who gets a say? How many years do you have to pay in taxes, or what other things do you have to give up to have a voice?
-        - What gets you *thrown to the (either literal or metaphorical) lions* in the amphiteatre by those in power?
+          - If it's an early form of *democracy*, voting is privilege, not a right. How many years do you have to pay in taxes, or what other things do you have to give up to have a voice?
+        - What gets you *thrown to the (either literal or metaphorical) lions* in the amphitheatre by those in power?
         - How monetized is *the economy* in Lygos? Farmers would probably turn their taxes in in the form of crops, but what about everyone else?
         - What's the *urban landscape* like? Neatly gridded streets, or winding paths from years of unplanned urban development?
         - People have strong ties to their individual communities, but how attached are they to the concept of *being Lygosi as an identity*?
@@ -220,6 +220,12 @@
   [
     #set text(size: 8.9pt)
     #biggest_line_right()
+    = Cultic community
+    A cultic community can range in size from a *single sanctuary to a whole city* (think Athens, a cult of Athena).
+    Your character will start as a member of a neighborhood cult, but as you grow and make steading improvements, more people will be interested in your cult, and it might grow along physical or ideological lines.
+    *Your character can also be in multiple cults.*
+    For example, you could be a part of a guild or a gang, or the ruler(s) of Lygos might ask/force you to participate in city-wide rituals honoring their preferred gods.
+
     = Using history as source of inspiration
     Because there isn't a book 2 for this setting, I'll recommend some historical references that could be useful to help flesh things out a bit.
     

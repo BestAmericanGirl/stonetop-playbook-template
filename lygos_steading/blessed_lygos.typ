@@ -211,7 +211,7 @@
   new_move(
     name: "Trackless Step",
     body: [
-      When you *_spend 1 Stock and perform a short rite_*, you can manifest a thick patch of moss of *area* size *near* on the ground beneath your feet. You make no sound, leave no trace and can ignore any hindering or treacherous terrain (briars, mire, scree, etc.) while walking on the moss. The growth will follow you as long as you remain in similar terrain, unless your concentration is interupted.
+      When you *_spend 1 Stock and perform a short rite_*, you can manifest a thick patch of moss (_area_) of size _near_ on the ground beneath your feet. You make no sound, leave no trace and can ignore any hindering or treacherous terrain (briars, mire, scree, etc.) while walking on the moss. The growth will follow you as long as you remain in similar terrain, unless your concentration is interupted.
     ]
   ),
   new_move(
