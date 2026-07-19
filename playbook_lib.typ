@@ -168,6 +168,18 @@
   #body
 ]
 
+// Roll Tables
+#let roll_table(die_roll, table_name, ..args) = table(
+  columns: (auto, 1fr),
+  column-gutter: 0.5em,
+  align: horizon,
+  stroke: none,
+  table.header(
+    [*#die_roll*], [#set text(font: style_options.font_heading, size: 0.7em); #upper([*#table_name*])],
+  ),
+  table.hline(stroke: (thickness: 0.2pt, dash: "densely-dotted")),
+  ..args,
+)
 
 /** Character Playbook Specific Stuff Below **/
 #let statbox(body, above: "", below: "") = grungebox(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt)[
