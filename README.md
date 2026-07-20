@@ -2,8 +2,9 @@
 A Typst template for making custom playbooks for the tabletop roleplaying game *Stonetop*.
 
 This work contains text adapted from [*Book 1 Stonetop*](https://plusoneexp.com/collections/stonetop) pp. 105-108 by Jeremy Strandburg, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+It also contains layout derived from Stonetop, and icons (`question.svg`, `swirl.svg`, and `blessed.png`), which are copyright Jason Lutes 2026.
 
-For simplicity's sake, the rest of this work is licensed under the same license, except `img/grunge.svg`, which is in the public domain.
+For simplicity's sake, the rest of this work is licensed under the same license, except `img/grunge.svg` and derivatives, which are in the public domain.
 
 
 ## Usage
