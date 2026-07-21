@@ -38,6 +38,7 @@
 #let checklist(body, checked: false, condense: false) = [
   #set list(marker: check(hspace: 0em, checked: checked)[])
   #if not condense {v(0.5em)}
+  #if body.fields().at("children", default: ()).len() == 0 { return }
   #for child in body.fields().children {
     block(breakable: false, spacing: 0.25em)[#child]
   }
@@ -390,3 +391,41 @@
     contents: contents,
     )
 }
+
+#let make_minor_arcanum(front: true, name: lorem(3), arcanum_tags: [#inv, magical], decoration: sym.dot.op, img: none, body) = [
+  #set par(leading: 0.65em, spacing: 0.95em, justify: false)
+  #set block(spacing: 1em)
+  #set text(size: 10pt)
+
+  #show heading.where(level: 1): set align(center)
+  #show heading.where(level: 1): set text(size: 14pt)
+
+  #let decoration = [#set text(size: 4pt, baseline: -0.25em); #decoration]
+
+  #set par(leading: 0.65em, spacing: 1em, justify: false)
+  #set block(spacing: 1em)
+
+
+  #place(center+horizon, image("arcana/minor_arcana_frame.png", width: 100%))
+  #place(top+center,
+    box(fill: white, outset: 0.5em)[#set text(size: 7pt, font: "Avara")
+    #decoration MINOR ARCANUM #decoration
+    ],
+    dy: 0.5em,
+  )
+
+  #place(bottom+center, circle(fill: white, radius: 1em, stroke: black+0.5pt)[])
+  #place(bottom+center, [#set text(size: 5pt, font: "Avara"); #if front {[FRONT]} else {[BACK]}], dy: -2.5em)
+
+  #block(inset: (top: 3em, rest: 2.5em))[
+    #align(center)[#pad(x: 0.3em)[
+        = #name
+        #if not arcanum_tags == none {[_#(arcanum_tags)_]}
+      ]
+    ]
+
+    #if not img == none {align(center)[#image(img, width: 100%)]}
+
+    #body
+  ]
+]
