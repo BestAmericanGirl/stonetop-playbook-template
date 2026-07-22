@@ -44,6 +44,13 @@
   }
 ]
 
+#let movelist(body) = [
+  #set list(
+    marker: "➤"
+  )
+  #pad(left: 1em)[#body]
+]
+
 #let choose_one_each_line(..option_lines) = for option_line in option_lines.pos() {
   box(width: 120%)[
     #for option in option_line {
@@ -400,9 +407,9 @@
   #show heading.where(level: 1): set align(center)
   #show heading.where(level: 1): set text(size: 14pt)
 
-  #let decoration = [#set text(size: 4pt, baseline: -0.25em); #decoration]
+  #let decoration = [#set text(font: "Noto Emoji", size: 4pt, baseline: -0.25em); #decoration]
 
-  #set par(leading: 0.65em, spacing: 1em, justify: false)
+  #set par(leading: 0.55em, spacing: 0.9em, justify: false)
   #set block(spacing: 1em)
 
 
@@ -417,7 +424,7 @@
   #place(bottom+center, circle(fill: white, radius: 1em, stroke: black+0.5pt)[])
   #place(bottom+center, [#set text(size: 5pt, font: "Avara"); #if front {[FRONT]} else {[BACK]}], dy: -2.5em)
 
-  #block(inset: (top: 3em, rest: 2.5em))[
+  #block(width: 100%, inset: (top: 3em, rest: 2.5em))[
     #align(center)[#pad(x: 0.3em)[
         = #name
         #if not arcanum_tags == none {[_#(arcanum_tags)_]}
@@ -426,6 +433,32 @@
 
     #if not img == none {align(center)[#image(img, width: 100%)]}
 
+    #body
+  ]
+]
+
+#let make_item(icon: "icons/arcana.png", name: [Lorem], item_tags: [#inv, magical], body) = [
+  #stack(dir: ltr, spacing: 0.5em, image(icon, height: 2.5em), [#text(font: "Avara")[#name]\
+   _#(item_tags)_])
+  #body
+]
+
+#let make_statblock(HP: none, armor: none, damage: none, instinct: none, special_qualities: none) = [
+  #if HP != none [*HP* #HP\;] #if armor != none [*Armor* #armor] #if HP != none or armor != none [\ ]
+  #if damage != none [*Damage* #damage\ ]
+  #if special_qualities != none [*Special Qualities* #special_qualities\ ]
+  #if instinct != none [*Instinct* #instinct\ ]
+]
+
+#let make_npc(body, icon: "icons/beast.png", name: "Jimothy", img: none, tags: [Solitary, group, horde]) = [
+  #big_line()
+
+  #if img != none [
+    #align(center)[#img]
+
+    #thin_line
+  ]
+  #make_item(icon: icon, name: name, item_tags: tags)[
     #body
   ]
 ]
