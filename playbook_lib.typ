@@ -89,6 +89,7 @@
 ]
 
 #let thin_line = line(length: 100%, stroke: 0.4pt)
+#let dotted_line = line(length: 100%, stroke: (thickness: 0.4pt, dash: "densely-dotted"))
 
 // Line above, checkbox, heading, and body
 #let checkblock(body, checked: false, count: 1, condense: false, is_child: false, num_uses: 0, skip_line: false) = block(breakable: false)[
@@ -190,7 +191,7 @@
 )
 
 /** Character Playbook Specific Stuff Below **/
-#let statbox(body, above: "", below: "") = grungebox(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt)[
+#let statbox(body, above: "", below: "", ..args) = grungebox(radius: (rest: 8pt), stroke: (black + 2pt), width: 100%, height: 5em, inset: 5pt, ..args)[
   #set text(weight: "bold", size: 7.5pt)
   #grunge
   // #block(height: 110%, clip: true, vgrunge)
