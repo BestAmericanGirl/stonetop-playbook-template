@@ -61,12 +61,14 @@
 }
 
 // Two column checklist for checklists with very short items
-#let two_columns_checklist(body) = columns(2, gutter: 1em)[
+#let two_columns_checklist(body, condense: false, padX: 0pt, gutter: 1em) = columns(2, gutter: gutter)[
   #let items = body.fields().children
-  #let first_half = int(items.len() / 2)
-  #checklist()[#items.slice(0, first_half).join()]
-  #colbreak()
-  #checklist()[#items.slice(first_half).join()]
+  #let first_half = int((items.len() + 1) / 2)
+  #pad(x: padX)[
+	  #checklist(condense: condense)[#items.slice(0, first_half).join()]
+	  #colbreak()
+	  #checklist(condense: condense)[#items.slice(first_half).join()]
+  ]
 ]
 
 // To give space for players to write
@@ -94,7 +96,9 @@
 #let checkblock(body, checked: false, count: 1, condense: false, is_child: false, num_uses: 0, skip_line: false) = block(breakable: false)[
   #show heading.where(level: 2): it => {
     set text(..style_options.heading2)
-    check([#upper[#it.body] #h(1fr) #if num_uses > 0 {uses(num_uses)}], checked: checked, count: count)
+    check([#upper[#it.body] #h(1fr) #if num_uses > 0 {
+      place(bottom+right)[#uses(num_uses)]
+    }], checked: checked, count: count)
     if not condense {parbreak()} else {linebreak()}
   }
   #let child_aware_line = if not is_child {thin_line} else {line(length: 100%, stroke: (thickness: 0.4pt, dash: "densely-dotted"))}
@@ -130,12 +134,16 @@
 #let big_line(vspace: 0em) = [#block(width: 100%, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
 
 // Same but it stretches across the sheet
-#let biggest_line(vspace: 0em, multiplier: 1) = context[#block(width: (page.height - page.margin * 3) * multiplier, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
+#let biggest_line(vspace: 0em, multiplier: 1, marginY: 0.25in) = context[#block(width: (page.height - marginY * 3) * multiplier, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
 
 // Better for something you want in both spread and booklet form
-#let biggest_line_left(vspace: 0em) = context[#block(width: (page.height - page.margin * 3) / 2, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
-#let biggest_line_right(vspace: 0em) = context[#set align(right)
-#block(width: (page.height - page.margin * 3) / 2, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
+#let biggest_line_left(vspace: 0em, marginY: 0.25in) = context[
+  #block(width: (page.height - marginY * 3) / 2, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)
+]
+#let biggest_line_right(vspace: 0em, marginY: 0.25in) = context[
+  #set align(right)
+  #block(width: (page.height - marginY * 3) / 2, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)
+]
 
 #let grungebox(body, ..args) = block(outset: 0.5em, clip: true, box(..args.named())[
   #grunge
@@ -155,10 +163,10 @@
 }]
 
 // For laying stuff across pages
-#let edge_and_count_aware(idx, lab, body, stop_state: none, also_add_label: true) = context {
+#let edge_and_count_aware(idx, lab, body, stop_state: none, also_add_label: true, marginX: 0.25in) = context {
   let count = counter(label(lab)).get().at(0)
   let didnt_do_yet = idx >= count
-  let wont_go_off_edge = not here().position().at("y") + measure(body).height > (page.width - page.margin).length
+  let wont_go_off_edge = not here().position().at("y") + measure(body).height > (page.width - marginX)
   let stopped = stop_state != none and stop_state.get()
   if didnt_do_yet and not stopped {
     if wont_go_off_edge {
@@ -206,6 +214,15 @@
   $ underbrace(#box(width: 100%, height: 1em)[#place(bottom + center, circle(radius: 2pt, fill: white, stroke: black), dy: 4pt)], italic(body)) $
 ]
 
+#let show_footnote(page, footnotes) = {
+  if page in footnotes {
+    v(1fr)
+    text(size: 8pt)[
+      #footnotes.at(page)
+    ]
+  }
+}
+
 #let make_playbook(
   info: none,
   stats: none,
@@ -217,7 +234,12 @@
   special_possessions: none,
   moves: none,
   character_question_sections: none,
-  introductions: none) = {
+  introductions: none,
+  footnotes: (),
+  marginX: 0.25in,
+  marginY: 0.25in,
+  playbook_advice: none,
+) = {
   import "@preview/bookletic:0.3.2"
   let page1 = [
     /* Headers */
@@ -259,7 +281,9 @@
 
         #big_line(vspace: -1em)
         = Place of origin and name
-        #info.steading_name is your home, or close enough, but where are you (or your family) from originally? Pick 1 and a name to match (or make up something similar).
+        #if "place_of_origin" in info { info.place_of_origin } else [
+         #info.steading_name is your home, or close enough, but where are you (or your family) from originally? Pick 1 and a name to match (or make up something similar).
+        ]
 
         #checklist[#origins_and_names]
 
@@ -270,6 +294,7 @@
         ])
       ]
     )
+    #show_footnote("1", footnotes)
   ]
 
   let stop_state = state("stop", false)
@@ -278,7 +303,7 @@
     for (idx, move) in moves.enumerate() {
       context {
         //let skip_line = not is_higher_than_previous_label("move", here())
-        edge_and_count_aware(idx, "root_move", [#format_move(move, skip_line: false)], stop_state: stop_state)
+        edge_and_count_aware(idx, "root_move", [#format_move(move, skip_line: false)], stop_state: stop_state, marginX: marginX)
       }
     }
     stop_state.update(false)
@@ -308,7 +333,7 @@
     )
 
     #v(1em)
-    #biggest_line(vspace: -1em)
+    #biggest_line(vspace: -1em, marginY: marginY)
 
     #choose_heading(desc: [You start with #info.starting_moves.])[Moves]
     #thin_line <hydaelyn>
@@ -316,11 +341,12 @@
       #set text(size: 8pt)
       #format_moves()
     ]
+    #show_footnote("2", footnotes)
   ]
 
   let page3 = [
     #set text(size: 8pt)
-    #stack(dir: ttb, 
+    #stack(dir: ttb,
     block(height: 25.6%)[#big_line(vspace: -1em)
     #choose_heading(desc: [(#info.num_special_possessions)])[Special Possessions]
 
@@ -337,17 +363,20 @@
     columns(2, gutter: 1em)[
       #format_moves()
     ])
+    #show_footnote("3", footnotes)
   ]
 
-  let intro_step(num, body) = block()[
-  #thin_line
-  #if introductions.at(num, default: none) != none {
-    body = introductions.at(num)
-  }
-  #stack(dir: ltr, spacing: 0.5em,
-    [#v(-0.75em) #box[ #image("img/intro_bg.svg") #place(top + center, text(fill: white)[= #num], dy: 2pt)]],
-    body
-  )
+  let intro_step(num, introductions: introductions, body) = block()[
+    #if num in introductions {
+      body = introductions.at(num)
+    }
+    #if body != none [
+      #thin_line
+      #stack(dir: ltr, spacing: 0.5em,
+        [#v(-0.75em) #box[ #image("img/intro_bg.svg") #place(top + center, text(fill: white)[= #num], dy: 2pt)]],
+        body
+      )
+    ]
   ]
 
   let page4 = [
@@ -380,6 +409,7 @@
         ]
       ]
     )
+    #show_footnote("4", footnotes)
   ]
 
   let contents = (
@@ -389,14 +419,38 @@
     page4,
   )
 
-  set page(flipped: true, paper: "us-letter", margin: (top: 0.25in, bottom: 0.25in, left: 0.25in, right: 0.25in))
+  set page(flipped: true, paper: "us-letter", margin: (top: marginY, bottom: marginY, left: marginX, right: marginX))
   bookletic.sig(
     page-margin-binding: 0.25in,
     page-border: none,
     draft: false,
     pad-content: 10pt,
     contents: contents,
-    )
+  )
+  if playbook_advice != none {
+
+    columns(2, gutter: 2 * marginX)[
+      = GM questions for #info.title
+      #intro_step("1", introductions: playbook_advice)[]
+      #v(0.5em)
+      #pad(left: 2em)[
+        *If their background is...*
+        #pad(left: 1em)[
+          #for background in playbook_advice.backgrounds {
+            background
+          }
+        ]
+      ]
+      #v(0.5em)
+      #intro_step("2", introductions: playbook_advice)[]
+      #intro_step("3", introductions: playbook_advice)[]
+      #intro_step("4", introductions: playbook_advice)[]
+      #intro_step("5", introductions: playbook_advice)[]
+      #intro_step("6", introductions: playbook_advice)[]
+      #intro_step("7", introductions: playbook_advice)[]
+      #intro_step("8", introductions: playbook_advice)[]
+    ]
+  }
 }
 
 #let make_minor_arcanum(front: true, name: lorem(3), arcanum_tags: [#inv, magical], decoration: sym.dot.op, img: none, body) = [
