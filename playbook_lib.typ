@@ -449,6 +449,12 @@
       #intro_step("6", introductions: playbook_advice)[]
       #intro_step("7", introductions: playbook_advice)[]
       #intro_step("8", introductions: playbook_advice)[]
+      #if "moves" in playbook_advice [
+        = Advice for moves
+        #thin_line
+
+        #playbook_advice.moves
+      ]
     ]
   }
 }
