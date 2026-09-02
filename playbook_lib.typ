@@ -518,7 +518,7 @@
   ]
 ]
 
-#let make_item(icon: "icons/arcana.png", name: [Lorem], item_tags: [#inv, magical], body) = [
+#let make_item(icon: "icons/arcana.png", name: [Lorem], item_tags: [#inv, magical], body) = block(breakable: false)[
   #stack(dir: ltr, spacing: 0.5em, image(icon, height: 2.5em), [#text(font: "Avara")[#name]\
    _#(item_tags)_])
   #body
