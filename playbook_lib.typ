@@ -134,6 +134,8 @@
 // Big line with grunge
 #let big_line(vspace: 0em) = [#block(width: 100%, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
 
+#let medium_line(vspace: 0em) = [#block(width: 100%, height: 0.05em, clip: true, fill: black, grunge) #v(vspace)]
+
 // Same but it stretches across the sheet
 #let biggest_line(vspace: 0em, multiplier: 1, marginY: 0.25in) = context[#block(width: (page.height - marginY * 3) * multiplier, height: 0.25em, clip: true, fill: black, grunge) #v(vspace)]
 
