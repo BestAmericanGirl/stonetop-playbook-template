@@ -371,10 +371,10 @@
       body = introductions.at(num)
     }
     #if body != none [
-      #thin_line
+      #place(top + left, thin_line)
       #stack(dir: ltr, spacing: 0.5em,
-        [#v(-0.75em) #box[ #image("img/intro_bg.svg") #place(top + center, text(fill: white)[= #num], dy: 2pt)]],
-        body
+        box[ #image("img/intro_bg.svg") #place(top + center, text(fill: white)[= #num], dy: 2pt)],
+        pad(top: 0.75em, body)
       )
     ]
   ]
@@ -429,19 +429,25 @@
   )
   if playbook_advice != none {
 
-    columns(2, gutter: 2 * marginX)[
+    show heading.where(level: 2): it => {
+        set text(..style_options.heading2)
+        [#it.body]
+    }
+    show: questions
+
+    columns(4, gutter: 2 * marginX)[
+
       = GM questions for #info.title
-      #intro_step("1", introductions: playbook_advice)[]
-      #v(0.5em)
-      #pad(left: 2em)[
-        *If their background is...*
-        #pad(left: 1em)[
-          #for background in playbook_advice.backgrounds {
-            background
-          }
-        ]
+      #intro_step("1", introductions: ())[
+        #playbook_advice.at("1", default: none)
+        #v(0.5em)
+        #for background in playbook_advice.backgrounds {
+          block(breakable: false)[
+            #thin_line
+            #background
+          ]
+        }
       ]
-      #v(0.5em)
       #intro_step("2", introductions: playbook_advice)[]
       #intro_step("3", introductions: playbook_advice)[]
       #intro_step("4", introductions: playbook_advice)[]
@@ -450,13 +456,25 @@
       #intro_step("7", introductions: playbook_advice)[]
       #intro_step("8", introductions: playbook_advice)[]
       #if "moves" in playbook_advice [
+        #colbreak(weak: true)
+        #set list(
+          marker: box(height: 0.7em)[#align(horizon)[#image("img/swirl.svg")]]
+        )
+
         = Advice for moves
         #thin_line
 
         #playbook_advice.moves
       ]
     ]
+
   }
+}
+
+#let make_unbreakable_blocks(..args) = {
+  for item in args.pos() [
+    #block(breakable: false)[#item]
+  ]
 }
 
 #let make_minor_arcanum(front: true, name: lorem(3), arcanum_tags: [#inv, magical], decoration: sym.dot.op, img: none, body) = [

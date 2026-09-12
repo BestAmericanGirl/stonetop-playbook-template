@@ -404,32 +404,38 @@
       == Vessel
       - How did you gain or become aware of your power? When did this happen?
       - How has your life changed since gaining your powers?
-      - Do you have a mentor? Or are you selftaught, going by instinct and insight?
+      - Do you have a mentor? Or are you self-taught, going by instinct and insight?
       - Do you hold some formal position as a servant of Danu?
     ],
   ),
-  "2": [
-    *If they have...*
-    #linebreak()
-    == Apiary, Goat herd, Herb garden
-    - How big is it? And where?
-    - Is it yours? Yours to manage? Or what?
-    - How long has it been in Stonetop?
-    - What’s its importance to the village?
-    == Anything else
-    - How did you come to possess that? When?
-    - What do others know/think about it?
-    - What does it mean to you? To the town?
-  ],
-  "3": [
-    == Sacred Pouch
-    - How did you get your sacred pouch? What’s it made from, and how is it adorned?
-
-    == The Earth Mother
-    - Is Danu generally worshipped, avoided, petitioned, or appeased?
-    - Why do the villagers leave the offerings that they do? Why are these things sacred to Danu? What do they symbolize?
-    - How is Danu’s worship different among other peoples? Do her chosen (like you) recognize any sort of fellowship?
-  ],
+  "2": make_unbreakable_blocks(
+    [*If they have...*],
+    [
+      == Apiary, Goat herd, Herb garden
+      - How big is it? And where?
+      - Is it yours? Yours to manage? Or what?
+      - How long has it been in Stonetop?
+      - What’s its importance to the village?
+    ],
+    [
+      == Anything else
+      - How did you come to possess that? When?
+      - What do others know/think about it?
+      - What does it mean to you? To the town?
+    ],
+  ),
+  "3": make_unbreakable_blocks(
+    [
+      == Sacred Pouch
+      - How did you get your sacred pouch? What’s it made from, and how is it adorned?
+    ],
+    [
+      == The Earth Mother
+      - Is Danu generally worshipped, avoided, petitioned, or appeased?
+      - Why do the villagers leave the offerings that they do? Why are these things sacred to Danu? What do they symbolize?
+      - How is Danu’s worship different among other peoples? Do her chosen (like you) recognize any sort of fellowship?
+    ]
+  ),
   "4": none,
   "5": [
     *Before moving on to step 6, if it's not already clear ask:*
