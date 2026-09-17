@@ -187,6 +187,13 @@
   #body
 ]
 
+#let circle_list(body) = [
+  #set list(
+    marker: box(height: 0.7em)[#align(horizon)[#sym.circle.stroked.big]]
+  )
+  #body
+]
+
 // Roll Tables
 #let roll_table(die_roll, table_name, ..args) = table(
   columns: (auto, 1fr),
